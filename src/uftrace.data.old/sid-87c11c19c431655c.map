@@ -1,0 +1,59 @@
+55e9da643000-55e9da6a1000 r-xp 00000000 103:09 790346                    /home/lee/sophomore2/LinuxC/summer19/muduo_test/Httpserver/src/server
+55e9da8a0000-55e9da8a1000 r--p 0005d000 103:09 790346                    /home/lee/sophomore2/LinuxC/summer19/muduo_test/Httpserver/src/server
+55e9da8a1000-55e9da8a2000 rw-p 0005e000 103:09 790346                    /home/lee/sophomore2/LinuxC/summer19/muduo_test/Httpserver/src/server
+55e9dc1c2000-55e9dc1e3000 rw-p 00000000 00:00 0                          [heap]
+7f8ff6193000-7f8ff61af000 r-xp 00000000 103:08 395453                    /lib/x86_64-linux-gnu/libz.so.1.2.11
+7f8ff61af000-7f8ff63af000 ---p 0001c000 103:08 395453                    /lib/x86_64-linux-gnu/libz.so.1.2.11
+7f8ff63af000-7f8ff63b0000 r--p 0001c000 103:08 395453                    /lib/x86_64-linux-gnu/libz.so.1.2.11
+7f8ff63b0000-7f8ff63b1000 rw-p 0001d000 103:08 395453                    /lib/x86_64-linux-gnu/libz.so.1.2.11
+7f8ff63b1000-7f8ff63ca000 r-xp 00000000 103:08 395412                    /lib/x86_64-linux-gnu/libpthread-2.27.so
+7f8ff63ca000-7f8ff65c9000 ---p 00019000 103:08 395412                    /lib/x86_64-linux-gnu/libpthread-2.27.so
+7f8ff65c9000-7f8ff65ca000 r--p 00018000 103:08 395412                    /lib/x86_64-linux-gnu/libpthread-2.27.so
+7f8ff65ca000-7f8ff65cb000 rw-p 00019000 103:08 395412                    /lib/x86_64-linux-gnu/libpthread-2.27.so
+7f8ff65cb000-7f8ff65cf000 rw-p 00000000 00:00 0 
+7f8ff65cf000-7f8ff65d2000 r-xp 00000000 103:08 395306                    /lib/x86_64-linux-gnu/libdl-2.27.so
+7f8ff65d2000-7f8ff67d1000 ---p 00003000 103:08 395306                    /lib/x86_64-linux-gnu/libdl-2.27.so
+7f8ff67d1000-7f8ff67d2000 r--p 00002000 103:08 395306                    /lib/x86_64-linux-gnu/libdl-2.27.so
+7f8ff67d2000-7f8ff67d3000 rw-p 00003000 103:08 395306                    /lib/x86_64-linux-gnu/libdl-2.27.so
+7f8ff67d3000-7f8ff67da000 r-xp 00000000 103:08 395422                    /lib/x86_64-linux-gnu/librt-2.27.so
+7f8ff67da000-7f8ff69d9000 ---p 00007000 103:08 395422                    /lib/x86_64-linux-gnu/librt-2.27.so
+7f8ff69d9000-7f8ff69da000 r--p 00006000 103:08 395422                    /lib/x86_64-linux-gnu/librt-2.27.so
+7f8ff69da000-7f8ff69db000 rw-p 00007000 103:08 395422                    /lib/x86_64-linux-gnu/librt-2.27.so
+7f8ff69db000-7f8ff69f4000 r-xp 00000000 103:08 800077                    /usr/lib/x86_64-linux-gnu/libelf-0.170.so
+7f8ff69f4000-7f8ff6bf3000 ---p 00019000 103:08 800077                    /usr/lib/x86_64-linux-gnu/libelf-0.170.so
+7f8ff6bf3000-7f8ff6bf4000 r--p 00018000 103:08 800077                    /usr/lib/x86_64-linux-gnu/libelf-0.170.so
+7f8ff6bf4000-7f8ff6bf5000 rw-p 00019000 103:08 800077                    /usr/lib/x86_64-linux-gnu/libelf-0.170.so
+7f8ff6bf5000-7f8ff6da6000 r-xp 00000000 103:08 395281                    /lib/x86_64-linux-gnu/libc-2.27.so
+7f8ff6da6000-7f8ff6fa5000 ---p 001b1000 103:08 395281                    /lib/x86_64-linux-gnu/libc-2.27.so
+7f8ff6fa5000-7f8ff6fa9000 r--p 001b0000 103:08 395281                    /lib/x86_64-linux-gnu/libc-2.27.so
+7f8ff6fa9000-7f8ff6fab000 rw-p 001b4000 103:08 395281                    /lib/x86_64-linux-gnu/libc-2.27.so
+7f8ff6fab000-7f8ff6faf000 rw-p 00000000 00:00 0 
+7f8ff6faf000-7f8ff6fc6000 r-xp 00000000 103:08 395320                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f8ff6fc6000-7f8ff71c5000 ---p 00017000 103:08 395320                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f8ff71c5000-7f8ff71c6000 r--p 00016000 103:08 395320                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f8ff71c6000-7f8ff71c7000 rw-p 00017000 103:08 395320                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f8ff71c7000-7f8ff7359000 r-xp 00000000 103:08 395350                    /lib/x86_64-linux-gnu/libm-2.27.so
+7f8ff7359000-7f8ff7558000 ---p 00192000 103:08 395350                    /lib/x86_64-linux-gnu/libm-2.27.so
+7f8ff7558000-7f8ff7559000 r--p 00191000 103:08 395350                    /lib/x86_64-linux-gnu/libm-2.27.so
+7f8ff7559000-7f8ff755a000 rw-p 00192000 103:08 395350                    /lib/x86_64-linux-gnu/libm-2.27.so
+7f8ff755a000-7f8ff76cc000 r-xp 00000000 103:08 801108                    /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+7f8ff76cc000-7f8ff78cc000 ---p 00172000 103:08 801108                    /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+7f8ff78cc000-7f8ff78d6000 r--p 00172000 103:08 801108                    /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+7f8ff78d6000-7f8ff78d8000 rw-p 0017c000 103:08 801108                    /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+7f8ff78d8000-7f8ff78db000 rw-p 00000000 00:00 0 
+7f8ff78db000-7f8ff78fe000 r-xp 00000000 103:08 1056350                   /usr/lib/uftrace/libmcount-fast.so
+7f8ff78fe000-7f8ff7afe000 ---p 00023000 103:08 1056350                   /usr/lib/uftrace/libmcount-fast.so
+7f8ff7afe000-7f8ff7aff000 r--p 00023000 103:08 1056350                   /usr/lib/uftrace/libmcount-fast.so
+7f8ff7aff000-7f8ff7b00000 rw-p 00024000 103:08 1056350                   /usr/lib/uftrace/libmcount-fast.so
+7f8ff7b00000-7f8ff7b01000 rw-p 00000000 00:00 0 
+7f8ff7b01000-7f8ff7b26000 r-xp 00000000 103:08 395253                    /lib/x86_64-linux-gnu/ld-2.27.so
+7f8ff7cf8000-7f8ff7d00000 rw-p 00000000 00:00 0 
+7f8ff7d23000-7f8ff7d25000 rw-p 00000000 00:00 0 
+7f8ff7d25000-7f8ff7d26000 r--p 00024000 103:08 395253                    /lib/x86_64-linux-gnu/ld-2.27.so
+7f8ff7d26000-7f8ff7d27000 rw-p 00025000 103:08 395253                    /lib/x86_64-linux-gnu/ld-2.27.so
+7f8ff7d27000-7f8ff7d28000 rw-p 00000000 00:00 0 
+7fff68168000-7fff68188000 rwxp 00000000 00:00 0                          [stack]
+7fff68188000-7fff68189000 rw-p 00000000 00:00 0 
+7fff6818c000-7fff6818f000 r--p 00000000 00:00 0                          [vvar]
+7fff6818f000-7fff68191000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
