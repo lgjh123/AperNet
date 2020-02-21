@@ -1,14 +1,17 @@
 #pragma once
-#include <boost/scoped_ptr.hpp>
+#include <memory>
 #include <boost/noncopyable.hpp>
 #include <vector>
 #include <sys/types.h>
 #include <sys/syscall.h>
 #include <mutex>
 #include "Callbacks.h"
+#include <functional>
+#include "../thread/Mutex.h"
+//#include "../thread/Thread.h"
 
 class Channel;
-class Poller;
+class EPoller;
 
 class EventLoop : boost::noncopyable
 {
@@ -42,7 +45,7 @@ public:
             abortNotInLoopThread();
         }
     }
-    bool isInLoopThread() const {return threadId_ == syscall(SYS_gettid) ;} 
+    bool isInLoopThread() const {return threadId_ == CurrentThread::tid();} 
 
 private:
     void abortNotInLoopThread();
@@ -51,9 +54,9 @@ private:
     void doPendingFunctors();
     int wakeupFd_;
     std::vector<Functor> pendingFunctors_;
-    boost::scoped_ptr<Channel> wakeupChannel_;
+    std::unique_ptr<Channel> wakeupChannel_;
 
-    boost::scoped_ptr<Poller> poller_;
+    std::unique_ptr<EPoller> poller_;
     typedef std::vector<Channel*> ChannelList;
     
     bool looping_;
@@ -61,6 +64,6 @@ private:
     bool callingPendingFunctors_;
     const pid_t threadId_;
     ChannelList activeChannels_;
-    std::mutex mutex;
+    MutexLock mutex_;
 };
 

@@ -21,6 +21,10 @@ class HttpServer : boost::noncopyable
   }*/
   void setResponse(const HttpRequest& req,HttpResponse* resp);
 
+  void setThreadNum(int numThreads)
+  {
+    server_.setThreadNum(numThreads);
+  }
 
   void start();
 

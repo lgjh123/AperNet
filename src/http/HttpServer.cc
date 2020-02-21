@@ -2,10 +2,9 @@
 #include "HttpContext.h"
 #include "HttpRequest.h"
 #include "HttpResponse.h"
-#include <functional>
-//#include <functional>
 #include <iostream>
-
+#include <functional>
+using namespace std::placeholders;
 void defaultHttpCallback(const HttpRequest&, HttpResponse* resp)   //默认回调
 {
     resp->setStatusCode(HttpResponse::k404NotFound);
@@ -18,10 +17,10 @@ HttpServer::HttpServer(EventLoop* loop,
   : server_(loop, listenAddr)
    // httpCallback_(defaultHttpCallback)
 {
-  server_.setConnectionCallback(//[this]{onConnection;});
-      std::bind(&HttpServer::onConnection, this,std::placeholders::_1));
+  server_.setConnectionCallback(
+      std::bind(&HttpServer::onConnection, this, _1));
   server_.setMessageCallback(
-      std::bind(&HttpServer::onMessage, this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3));
+      std::bind(&HttpServer::onMessage, this, _1, _2, _3));
 }
 
 void HttpServer::start()
@@ -71,7 +70,7 @@ void HttpServer::onRequest(const TcpConnectionPtr& conn, const HttpRequest& req)
   if (response.closeConnection())
   {
     conn->shutdown();
-    printf("Httpserver::shutdown--------------------------------------\n");
+    //printf("Httpserver::shutdown--------------------------------------\n");
   }
 }
 void HttpServer::setResponse(const HttpRequest& req,HttpResponse* resp)

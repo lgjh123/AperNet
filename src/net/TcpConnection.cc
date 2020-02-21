@@ -6,6 +6,7 @@
 #include "Socket.h"
 #include "SocketsOps.h"
 
+//#include <boost/bind.hpp>
 #include <functional>
 #include <boost/implicit_cast.hpp>
 #include <errno.h>
@@ -48,7 +49,9 @@ TcpConnection::~TcpConnection()
 //TcpServer accepts a new connection(socket)
 void TcpConnection::connectEstablished()
 {
+    //printf("999999999----connectrstablished-----66-----\n");
     loop_->assertInLoopThread();
+    //printf("1010101010101----------------10101\n");
     assert(state_ == kConnecting);
     setState(kConnected);
     channel_->enableReading();
@@ -93,14 +96,14 @@ void TcpConnection::handleError()
 
 void TcpConnection::connectDestroyed()
 {
-    printf("1111111111111111111111111111\n");
+    //printf("11111111iconnectdestroyed11111111111111111111\n");
   loop_->assertInLoopThread();
   assert(state_ == kConnected || state_== kDisconnecting);
   setState(kDisconnected);
   channel_->disableAll();
   connectionCallback_(shared_from_this());
 
-  loop_->removeChannel(get_pointer(channel_));
+  loop_->removeChannel(channel_.get());
 }
 
 void TcpConnection::send(Buffer* buf)
@@ -113,7 +116,7 @@ void TcpConnection::send(Buffer* buf)
         }
         else
         {
-           // loop_->runInLoop(std::bind(&TcpConnection::sendInLoop,this,buf->retrieveAsString()));
+            loop_->runInLoop(std::bind(&TcpConnection::sendInLoop,this,buf->peek(),buf->readableBytes()));
         }
     }
 }

@@ -4,17 +4,17 @@
 #include "../base/Buffer.h"
 
 #include <boost/any.hpp>
-#include <boost/enable_shared_from_this.hpp>
+//#include <boost/enable_shared_from_this.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/shared_ptr.hpp>
+//#include <boost/scoped_ptr.hpp>
+#include <memory>
 
 class Channel;
 class EventLoop;
 class Socket;
 
 class TcpConnection : boost::noncopyable,
-                      public boost::enable_shared_from_this<TcpConnection>
+                      public std::enable_shared_from_this<TcpConnection>
 {
 public:
     //构建一个TcpConnection 用一个已经Connection的sockfd
@@ -87,8 +87,8 @@ private:
     std::string name_;
     StateE state_; //FIXME
 
-    boost::scoped_ptr<Socket> socket_;
-    boost::scoped_ptr<Channel> channel_;
+    std::unique_ptr<Socket> socket_;
+    std::unique_ptr<Channel> channel_;
     //不能把这些class暴露给用户
     InetAddress localAddr_;
     InetAddress peerAddr_;
@@ -102,5 +102,5 @@ private:
     boost::any context_;
 
 };
-typedef boost::shared_ptr<TcpConnection> TcpConnectionPtr;
+typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
 

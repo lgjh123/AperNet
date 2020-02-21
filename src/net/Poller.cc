@@ -5,28 +5,57 @@
 #include <assert.h>
 #include <poll.h>
 #include <boost/implicit_cast.hpp>
+#include <sys/epoll.h>
+#include <boost/static_assert.hpp>
+#include <errno.h>
+
+BOOST_STATIC_ASSERT(EPOLLIN == POLLIN);
+BOOST_STATIC_ASSERT(EPOLLPRI == POLLPRI);
+BOOST_STATIC_ASSERT(EPOLLOUT == POLLOUT);
+BOOST_STATIC_ASSERT(EPOLLRDHUP == POLLRDHUP);
+BOOST_STATIC_ASSERT(EPOLLERR == POLLERR);
+BOOST_STATIC_ASSERT(EPOLLHUP == POLLHUP);
+
+namespace{    //namespace用法
+    const int kNew = -1;
+    const int kAdded = 1;
+    const int kDeleted = 2;
+}
+
 //顾名思义拥有它的loop,调用它的EventLoop
 //后面需要用这个指针判断是否在一个线程中执行
-Poller::Poller(EventLoop* loop)
-        : ownerLoop_(loop)
+EPoller::EPoller(EventLoop* loop)
+        : ownerLoop_(loop),
+          epollfd_(::epoll_create1(EPOLL_CLOEXEC)),
+          events_(kInitEventListSize)
 {
+    if(epollfd_ < 0)
+    {
+        printf("EPoller::EPoller\n");
+    }
 }
 
 //空的析构韩式？
-Poller::~Poller()
+EPoller::~EPoller()
 {
 }
 
 //Timestamp Poller::poll(int timeoutMs, ChannelList* activeChannels)
-void Poller::poll(int timeoutMs, ChannelList* activeChannels)
+void EPoller::poll(int timeoutMs, ChannelList* activeChannels)
 {
-    int numEvents = ::poll(&*pollfds_.begin(),
-                           pollfds_.size(),timeoutMs);
+    int numEvents = ::epoll_wait(epollfd_,
+                           events_.data(),
+                           static_cast<int>(events_.size()),
+                           timeoutMs);
     //获得到达事件的个数
     //Timestamp now(Timesstamp::now());
     if(numEvents > 0){
-        std::cout << "numEvent happended" << std::endl;
+        std::cout << "events happended" << std::endl;
         fillActiveChannel(numEvents,activeChannels);
+        if(boost::implicit_cast<size_t>(numEvents) == events_.size())
+        {
+            events_.resize(events_.size()*2);
+        }
     }else if(numEvents == 0){
         std::cout << "nothing happended" <<std::endl;
     }else{
@@ -35,112 +64,109 @@ void Poller::poll(int timeoutMs, ChannelList* activeChannels)
     //return now;
 }
 
-void Poller::fillActiveChannel(int numEvents,
+void EPoller::fillActiveChannel(int numEvents,
                                ChannelList* activeChannels)
 {
-    for(PollFdList::const_iterator pfd = pollfds_.begin();
-    pfd != pollfds_.end() && numEvents > 0;++pfd)
-    //numEvents = 0时说明到达事件已经添加完
-    {
-       if(pfd->revents > 0) //返回事件不为0
-       {
-            --numEvents;
-            ChannelMap::const_iterator ch = channels_.find(pfd->fd);
-            //用结构体中的fd找到fd所在的channel
-            //struct poller中返回的只有fd event revent
-            //一个fd一个channel需要查找，fd相应的事件分发器channel
-            assert(ch != channels_.end());
-            Channel*channel = ch->second;
-            //将该fd的channel取出
-            assert(channel->fd() == pfd->fd);
-            channel->set_revents(pfd->revents);
-            //将得到的到达（返回）事件类型传给fd对应的channel
-            //pfd->revents = 0;
-            activeChannels->push_back(channel);
-            //将刚得到设置好的channel加入channellist容器中
-            //用于之后在loop中统一回调
-       }
+    //poll每次需要遍历O(n)    epoll每次查找只需O(logn)
+    assert(boost::implicit_cast<size_t>(numEvents)<=events_.size());
 
+    for(int i = 0;i < numEvents; ++i)
+    {
+        Channel* channel = static_cast<Channel*>(events_[i].data.ptr);
+#ifndef NDEBUG
+        int fd = channel->fd();
+        ChannelMap::const_iterator it = channels_.find(fd);
+        assert(it != channels_.end());
+        assert(it->second == channel);
+#endif
+        channel->set_revents(events_[i].events);
+        activeChannels->push_back(channel);
     }
+
 }
-void Poller::updateChannel(Channel* channel)
+void EPoller::updateChannel(Channel* channel)
 {
         //channe索引的必要性?
         assertInLoopThread();
-        std::cout << "fd = " << channel->fd() << " events = " <<channel->events() << std::endl;
-        //索引小于零，说明之前不在channel map中
-        //是一个新的channel
-        if(channel->index() < 0 )
+        std::cout << ">>>>UPDATECHANNEL--------fd = " << channel->fd() << " events = " <<channel->events() << std::endl;
+        const int index = channel->index();
+
+        if(index == kNew || index == kDeleted)
         {
-            assert(channels_.find(channel->fd()) == channels_.end());
-            struct pollfd pfd;
-            //为它分配struct pollfd 
-            pfd.fd = channel->fd();
-            pfd.events = static_cast<short>(channel->events());
-            pfd.revents = 0;
-            pollfds_.push_back(pfd);
-            //向pollfd list加入这个channel的相关信息
-            int idx = static_cast<int>(pollfds_.size())-1;
-            channel->set_index(idx);
-            channels_[pfd.fd] = channel;
-            //建立fd与channel的键值对
+            //a new one ,add with EPOLL_CTL_ADD
+            int fd = channel->fd();
+            if(index == kNew)
+            {
+                assert(channels_.find(fd) == channels_.end());
+                channels_[fd] = channel;
+            }
+            else // index == kDeleted
+            {
+                assert(channels_.find(fd) != channels_.end());
+                assert(channels_[fd] == channel );
+            }
+            channel->set_index(kAdded);
+            update(EPOLL_CTL_ADD,channel);
         }
         else
         {
-            //update一个已经在channelmap中的channel
-            assert(channels_.find(channel->fd()) != channels_.end());
-            //在channel中可以找到
-            assert(channels_[channel->fd()] == channel);
-            //更新的channel可以在索引中找到
-            int idx = channel->index();
-            assert(0 <= idx&& idx < static_cast<int>(pollfds_.size()));
-            struct pollfd& pfd = pollfds_[idx];
-            //pfd是pollfds_[idx]的引用
-            assert(pfd.fd == channel->fd() || pfd.fd == -channel->fd()-1);
-            //根据该channel的index找到相应的pollfd
-            //它的fd可能与channel相同，也可能被设定为-1（忽略）
-            pfd.events = static_cast<short>(channel->events());
-            pfd.revents = 0;
-            //更新该pollfd的信息
+            //更新一个存在的fd with EPOLL_CTL_MOD
+            int fd = channel->fd();
+            (void)fd;
+            //assert ???
+            assert(channels_.find(fd) != channels_.end());
+            assert(channels_[fd] == channel);
+            assert(index == kAdded);
             if(channel->isNoneEvent())
             {
-                //忽略这个pollfd
-                pfd.fd = -channel->fd()-1;
+                update(EPOLL_CTL_DEL,channel);
+                channel->set_index(kDeleted);
+            }
+            else
+            {
+                update(EPOLL_CTL_MOD,channel);
             }
         }
+
 }
-//pollfdlist通过index维护
-//每个channel都有自己的index，但是它对应的fd
-//可能在pollfd中被设置为-1
-//但在channelmap中的关系不变
-void Poller::removeChannel(Channel* channel)
+void EPoller::removeChannel(Channel* channel)
 {
     assertInLoopThread();
     std::cout << "ooooooooooooooooooooremove Channel fd = \n" << channel->fd();
+    int fd = channel->fd();
     assert(channels_.find(channel->fd()) != channels_.end());
     assert(channels_[channel->fd()] == channel);
     assert(channel->isNoneEvent());
-    int idx = channel->index();
-    //获取channel的索引
-    assert(0 <= idx && idx < static_cast<int>(pollfds_.size()));
-    const struct pollfd& pfd = pollfds_[idx]; 
-    //找出这个pollfd
-    (void)pfd; // ?????
-    assert(pfd.fd == -channel->fd()-1 && pfd.events == channel->events());
-    size_t n = channels_.erase(channel->fd());
-    //从channelmap中删除
-    assert(n == 1); (void)n;
-    if (boost::implicit_cast<size_t>(idx) == pollfds_.size()-1) {
-        pollfds_.pop_back();
-        //从pollfdlist中删除
-    } else {
-        // ???????不在pollfdlist中？
-        int channelAtEnd = pollfds_.back().fd;
-        iter_swap(pollfds_.begin()+idx, pollfds_.end()-1);
-        if (channelAtEnd < 0) {
-          channelAtEnd = -channelAtEnd-1;
-        }
-        channels_[channelAtEnd]->set_index(idx);
-        pollfds_.pop_back();
+    int index = channel->index();
+    assert(index == kAdded || index == kDeleted);
+
+    size_t n = channels_.erase(fd);
+    (void)n;         //????????
+    assert(n == 1);
+
+    if(index == kAdded)
+    {
+        update(EPOLL_CTL_DEL,channel);
     }
+    channel->set_index(kNew);
+
+}
+void EPoller::update(int operation, Channel* channel)
+{
+  struct epoll_event event;
+  bzero(&event, sizeof event);
+  event.events = channel->events();
+  event.data.ptr = channel;
+  int fd = channel->fd();
+  if (::epoll_ctl(epollfd_, operation, fd, &event) < 0)
+  {
+    if (operation == EPOLL_CTL_DEL)
+    {
+      std::cout << "epoll_ctl op=" << operation << " fd=" << fd;
+    }
+    else
+    {
+      std::cout << "epoll_ctl op=" << operation << " fd=" << fd;
+    }
+  }
 }

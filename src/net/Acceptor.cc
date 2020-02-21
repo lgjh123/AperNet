@@ -5,7 +5,7 @@
 #include "InetAddress.h"
 #include "SocketsOps.h"
 
-#include <functional>
+#include <boost/bind.hpp>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -23,7 +23,7 @@ Acceptor::Acceptor(EventLoop* loop,const InetAddress& listenAddr)
     acceptSocket_.setReuseAddr(true);
     acceptSocket_.bindAddress(listenAddr);
     acceptChannel_.setReadCallback(
-                std::bind(&Acceptor::handleRead,this));
+                boost::bind(&Acceptor::handleRead,this));
 }
 
 void Acceptor::listen()
@@ -48,12 +48,12 @@ void Acceptor::handleRead()
             //如果定义了回调
             newConnectionCallback_(connfd,peerAddr);
              }else{
-                 printf("closeeeeeeeeeeeee<<<<<<<<<<<<<<<<?\n");
+                 //printf("closeeeeeeeeeeeee<<<<<<<<<<<<<<<<?\n");
                  sockets::close(connfd);
             }
         }else if(connfd < 0 ){
            if(errno == EMFILE){
-               printf("max fd>>>>>>>>>>>>>>>>\n");
+               //printf("max fd>>>>>>>>>>>>>>>>\n");
                 ::close(ideal_);
                 ideal_ = ::accept(acceptSocket_.fd(), NULL, NULL);
                 ::close(ideal_);

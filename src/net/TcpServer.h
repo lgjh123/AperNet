@@ -13,7 +13,7 @@
 
 class Acceptor;
 class EventLoop;
-
+class EventLoopThreadPool;
 class TcpServer : boost::noncopyable
 {
 public:
@@ -31,20 +31,27 @@ public:
     void setMessageCallback(const MessageCallback& cb)
     { messageCallback_ = cb; };
 
+    void setThreadNum(int numThreads);
+
 private:
     //不是线程安全的但是，只在loop中执行
     void newConnection(int sockfd,const InetAddress& peerAddr);
+    //线程安全
     void removeConnection(const TcpConnectionPtr& conn);
+    //不是线程安全但是在loop中执行
+    void removeConnectionInLoop(const TcpConnectionPtr& conn);
 
     typedef std::map<std::string,TcpConnectionPtr> ConnectionMap;
 
     EventLoop* loop_;
     const std::string name_;
-    boost::scoped_ptr<Acceptor> acceptor_; //避免暴露accept
+    std::unique_ptr<Acceptor> acceptor_; //避免暴露accept
     ConnectionCallback connectionCallback_;
     MessageCallback messageCallback_;
     bool started_;
     int nextConnId_;  //在Eventloop线程
     ConnectionMap connections_;
+
+    std::unique_ptr<EventLoopThreadPool> threadPool_;
 };
 
