@@ -1,10 +1,10 @@
 # AperNet
 
-AperNet (v0.08)
+- AperNet (v0.08)
 
 ## 介绍
 
-AperNet 是一个基于主-从 Reactor 模型的多线程异步 Web 服务器。支持处理 HTTP/1.1 静态 GET 请求。
+* AperNet 是一个基于主-从 Reactor 模型的多线程异步 Web 服务器。支持处理 HTTP/1.1 静态 GET 请求。
 
 ## 特点
 
@@ -63,6 +63,7 @@ Speed=2437418 pages/min, 6662243 bytes/sec.
 
 ```Total time```代表函数的调用总时间(包括函数内的调用)
 ```Self time```代表函数调用的时间(不包括其它函数)
+
 按照selftime排序：
 
 ```shell
