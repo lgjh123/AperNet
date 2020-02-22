@@ -2,7 +2,7 @@
 
 AperNet (v0.08)
 
-##介绍
+## 介绍
 
 AperNet 是一个基于主-从 Reactor 模型的多线程异步 Web 服务器。支持处理 HTTP/1.1 静态 GET 请求。
 
@@ -17,7 +17,7 @@ AperNet (v0.08)
 * 支持长连接: 使用std::map储存fd与channel(事件分发器)的对应关系
 * 支持优雅关闭 
 
-##使用方法
+## 使用方法
 
 安装前，你需要确保你的机器已经正确配置了cmake 3.0以上的版本，你可在软件源中下载并安装cmake。
 
@@ -29,7 +29,7 @@ AperNet (v0.08)
 
 ```$ab  ab -n 500000 -r -c 512 http://127.0.0.1:8000/hello.html```
 
-####AperNet
+#### AperNet
 
 ```shell
 Concurrency Level:      512
