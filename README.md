@@ -81,7 +81,6 @@ Speed=2437418 pages/min, 6662243 bytes/sec.
  Total time   Self time       Calls  Function
   ==========  ==========  ==========  =================================================
  475.619 ms    2.053 ms        7499  std::function::operator ()
-  473.174 ms    1.964 ms        7499  std::_Function_handler::_M_invoke
   468.986 ms    1.909 ms        7499  std::_Bind::operator ()
   464.056 ms    2.579 ms        7499  std::_Bind::__call
   213.488 ms  618.605 us        2998  Channel::handleEvent
