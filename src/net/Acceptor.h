@@ -1,5 +1,5 @@
 #pragma once
-#include <boost/function.hpp>
+#include <functional>
 #include <boost/noncopyable.hpp>
 
 #include "Channel.h"
@@ -11,7 +11,7 @@ class InetAddress;
 class Acceptor : boost::noncopyable
 {
 public:
-    typedef boost::function<void (int sockfd,
+    typedef std::function<void (int sockfd,
                                   const InetAddress&)> NewConnectionCallback;
 
     Acceptor(EventLoop* loop,const InetAddress& listenAddr);

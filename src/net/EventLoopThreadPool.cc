@@ -4,7 +4,6 @@
 #include "EventLoop.h"
 #include "EventLoopThread.h"
 
-#include <boost/bind.hpp>
 
 
 

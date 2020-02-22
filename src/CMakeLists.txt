@@ -11,4 +11,4 @@ add_executable(server  ../server.cc ${DIR_SRCS1} ${DIR_SRCS2} ${DIR_SRCS3} ${DIR
 find_package(Threads)
 
 target_link_libraries(server ${CMAKE_THREAD_LIBS_INIT})
-#add_definitions("-Wall -g")
+add_definitions("-Wall -pg")

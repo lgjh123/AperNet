@@ -6,7 +6,6 @@
 #include "Socket.h"
 #include "SocketsOps.h"
 
-//#include <boost/bind.hpp>
 #include <functional>
 #include <boost/implicit_cast.hpp>
 #include <errno.h>
@@ -26,9 +25,9 @@ TcpConnection::TcpConnection(EventLoop* loop,
      localAddr_(localAddr),
      peerAddr_(peerAddr)
 {
-    std::cout << "TcpConnection::ctor[" <<  name_ << "] at " << this
-            << " fd=" << sockfd
-            <<std::endl;
+    //std::cout << "TcpConnection::ctor[" <<  name_ << "] at " << this
+    //        << " fd=" << sockfd
+    //        <<std::endl;
     channel_->setReadCallback(
          std::bind(&TcpConnection::handleRead, this));
            channel_->setWriteCallback(
@@ -41,9 +40,9 @@ TcpConnection::TcpConnection(EventLoop* loop,
 
 TcpConnection::~TcpConnection()
 {
-    std::cout << "TcpConnection::dtor析构！！[" <<  name_ << "] at " << this
-            << " fd=" << channel_->fd()
-            << std::endl;
+   // std::cout << "TcpConnection::dtor析构！！[" <<  name_ << "] at " << this
+   //         << " fd=" << channel_->fd()
+   //         << std::endl;
 }
 
 //TcpServer accepts a new connection(socket)
@@ -78,8 +77,8 @@ void TcpConnection::handleRead()
 void TcpConnection::handleClose()
 {
     loop_->assertInLoopThread();
-    std::cout << "TcpConnection::handleClose state = "
-        << state_ << std::endl;
+    //std::cout << "TcpConnection::handleClose state = "
+    //    << state_ << std::endl;
     assert(state_== kConnected || state_ == kDisconnecting);
     //不关闭fd，channel->poll 忽略这个fd
     channel_->disableAll();
@@ -89,9 +88,9 @@ void TcpConnection::handleClose()
 void TcpConnection::handleError()
 {
     int err = sockets::getSocketError(channel_->fd());
-    std::cout << "TcpConnetion::handleError [ "
-        << name_ << "] - SO_ERROR = " << err << " "
-        << strerror(err) <<std::endl; //FIXME
+    //std::cout << "TcpConnetion::handleError [ "
+    //    << name_ << "] - SO_ERROR = " << err << " "
+    //    << strerror(err) <<std::endl; //FIXME
 }
 
 void TcpConnection::connectDestroyed()

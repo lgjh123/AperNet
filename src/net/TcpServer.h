@@ -9,7 +9,6 @@
 
 #include <map>
 #include <boost/noncopyable.hpp>
-#include <boost/scoped_ptr.hpp>
 
 class Acceptor;
 class EventLoop;

@@ -50,14 +50,14 @@ void EPoller::poll(int timeoutMs, ChannelList* activeChannels)
     //获得到达事件的个数
     //Timestamp now(Timesstamp::now());
     if(numEvents > 0){
-        std::cout << "events happended" << std::endl;
+        //std::cout << "events happended" << std::endl;
         fillActiveChannel(numEvents,activeChannels);
         if(boost::implicit_cast<size_t>(numEvents) == events_.size())
         {
             events_.resize(events_.size()*2);
         }
     }else if(numEvents == 0){
-        std::cout << "nothing happended" <<std::endl;
+       // std::cout << "nothing happended" <<std::endl;
     }else{
         std::cout << "sys_errno Poller:poll" <<std::endl;
     }
@@ -88,7 +88,7 @@ void EPoller::updateChannel(Channel* channel)
 {
         //channe索引的必要性?
         assertInLoopThread();
-        std::cout << ">>>>UPDATECHANNEL--------fd = " << channel->fd() << " events = " <<channel->events() << std::endl;
+        //std::cout << ">>>>UPDATECHANNEL--------fd = " << channel->fd() << " events = " <<channel->events() << std::endl;
         const int index = channel->index();
 
         if(index == kNew || index == kDeleted)
@@ -132,7 +132,7 @@ void EPoller::updateChannel(Channel* channel)
 void EPoller::removeChannel(Channel* channel)
 {
     assertInLoopThread();
-    std::cout << "ooooooooooooooooooooremove Channel fd = \n" << channel->fd();
+    //std::cout << "ooooooooooooooooooooremove Channel fd = \n" << channel->fd();
     int fd = channel->fd();
     assert(channels_.find(channel->fd()) != channels_.end());
     assert(channels_[channel->fd()] == channel);

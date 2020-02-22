@@ -1,6 +1,6 @@
 #pragma once
-#include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
+#include <functional>
 
 //channel 事件分发器
 //每个channel对象自始至终只属于一个EventLoop
@@ -13,7 +13,7 @@ class EventLoop;
 class Channel : boost::noncopyable 
 {
 public:
-    typedef boost::function<void()> EventCallback;
+    typedef std::function<void()> EventCallback;
     //用function做回调函数
     
     Channel(EventLoop* loop,int fd);

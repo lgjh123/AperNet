@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <assert.h>
 #include <sys/eventfd.h>
-#include "../thread/CurrentThread.h"
 __thread EventLoop* t_looInThisThread = 0;
 const int kPollTimeMs = 10000;
 
@@ -68,11 +67,11 @@ void EventLoop::loop()
         activeChannels_.clear(); //清空容器(初始化)
         poller_->poll(kPollTimeMs,&activeChannels_);
         //用poll获取活跃的IO事件？
-        std:: cout << "return from poll !!! " << std::endl;
+        //std:: cout << "return from poll !!! " << std::endl;
         for(ChannelList::iterator it = activeChannels_.begin();
             it != activeChannels_.end(); ++it)
         {
-           std::cout << "loop>>>>>>>>>>>>>>>>>>>>>test" << std::endl;;
+           //std::cout << "loop>>>>>>>>>>>>>>>>>>>>>test" << std::endl;;
           (*it)->handleEvent();
         }//遍历活跃io时间，执行回调
         doPendingFunctors();

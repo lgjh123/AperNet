@@ -75,13 +75,13 @@ void HttpServer::onRequest(const TcpConnectionPtr& conn, const HttpRequest& req)
 }
 void HttpServer::setResponse(const HttpRequest& req,HttpResponse* resp)
 {
-  std::cout << "Headers " << req.methodString() << " " << req.path() << std::endl;
+  //std::cout << "Headers " << req.methodString() << " " << req.path() << std::endl;
   if (true)
   {
     const std::map<string, string>& headers = req.headers();
     for (const auto& header : headers)
     {
-      std::cout << header.first << ": " << header.second << std::endl;
+     // std::cout << header.first << ": " << header.second << std::endl;
     }
   }
 
@@ -90,7 +90,7 @@ void HttpServer::setResponse(const HttpRequest& req,HttpResponse* resp)
     resp->setStatusCode(HttpResponse::k200Ok);
     resp->setStatusMessage("OK");
     resp->setContentType("text/html");
-    resp->addHeader("Server", "Muduo");
+    resp->addHeader("Server", "Lee");
     
     resp->setBody("<html><head><title>This is title</title></head>"
         "<body><h1>Hello</h1>Now is "
@@ -109,7 +109,7 @@ void HttpServer::setResponse(const HttpRequest& req,HttpResponse* resp)
     resp->setStatusCode(HttpResponse::k200Ok);
     resp->setStatusMessage("OK");
     resp->setContentType("text/plain");
-    resp->addHeader("Server", "Muduo");
+    resp->addHeader("Server", "Lee");
     resp->setBody("hello, world!\n");
   }
   else

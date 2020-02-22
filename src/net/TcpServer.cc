@@ -47,17 +47,17 @@ void TcpServer::start()
 
 void TcpServer::newConnection(int sockfd,const InetAddress& peerAddr)
 {
-    printf("TcpServer:::::newConnnnnnnnn\n");
+    //printf("TcpServer:::::newConnnnnnnnn\n");
     loop_->assertInLoopThread();
     char buf[32];
     snprintf(buf,sizeof buf,"#%d",nextConnId_);
     ++nextConnId_;
     std::string connName = name_ + buf;
 
-    std::cout << "TcpServer::newConnection [" << name_
-           << "] - new connection [" << connName
-           << "] from " << peerAddr.toHostPort() 
-           << "fd = " << sockfd << std::endl;
+    //std::cout << "TcpServer::newConnection [" << name_
+    //       << "] - new connection [" << connName
+    //       << "] from " << peerAddr.toHostPort() 
+    //      << "fd = " << sockfd << std::endl;
         
     InetAddress localAddr(sockets::getLocalAddr(sockfd));
     //FIXME ??
@@ -79,8 +79,8 @@ void TcpServer::removeConnection(const TcpConnectionPtr& conn)
 void TcpServer::removeConnectionInLoop(const TcpConnectionPtr& conn)
 {
     loop_->assertInLoopThread();
-    std::cout<< "Tcpserver::removeConnectionInLoop [" << name_ 
-                << "] - connection " << conn->name() << std::endl;
+   // std::cout<< "Tcpserver::removeConnectionInLoop [" << name_ 
+    //            << "] - connection " << conn->name() << std::endl;
     size_t n = connections_.erase(conn->name());
     assert( n == 1); (void)n;
     EventLoop* ioLoop = conn->getLoop();

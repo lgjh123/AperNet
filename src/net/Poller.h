@@ -6,7 +6,7 @@
 #include "EventLoop.h"
 
 struct epoll_event;
-
+class Eventloop;
 class Channel;
 
 class EPoller : boost::noncopyable

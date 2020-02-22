@@ -8,7 +8,7 @@
 #include "Callbacks.h"
 #include <functional>
 #include "../thread/Mutex.h"
-//#include "../thread/Thread.h"
+#include "../thread/CurrentThread.h"
 
 class Channel;
 class EPoller;
@@ -16,7 +16,7 @@ class EPoller;
 class EventLoop : boost::noncopyable
 {
 public:
-    typedef boost::function<void()> Functor;
+    typedef std::function<void()> Functor;
     EventLoop();
     ~EventLoop();
     void loop();

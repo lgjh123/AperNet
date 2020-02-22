@@ -4,8 +4,7 @@
 #include "EventLoop.h"
 #include "InetAddress.h"
 #include "SocketsOps.h"
-
-#include <boost/bind.hpp>
+#include <functional>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -23,7 +22,7 @@ Acceptor::Acceptor(EventLoop* loop,const InetAddress& listenAddr)
     acceptSocket_.setReuseAddr(true);
     acceptSocket_.bindAddress(listenAddr);
     acceptChannel_.setReadCallback(
-                boost::bind(&Acceptor::handleRead,this));
+                std::bind(&Acceptor::handleRead,this));
 }
 
 void Acceptor::listen()

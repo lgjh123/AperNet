@@ -44,7 +44,6 @@ void Channel::handleEvent()
     }
     if(revents_ & (POLLIN | POLLPRI | POLLRDHUP)){
         if(readCallback_) readCallback_();
-        std::cout << "POLLIN! " << std::endl;
     }
     if(revents_ & POLLOUT ){
         if(writeCallback_) writeCallback_();

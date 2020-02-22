@@ -1,2 +1,0 @@
-SESS timestamp=2467.793991181 pid=9367 sid=87c11c19c431655c exename="/home/lee/sophomore2/LinuxC/summer19/muduo_test/Httpserver/src/server"
-TASK timestamp=2467.794030082 tid=9367 pid=9367
