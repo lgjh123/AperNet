@@ -1,10 +1,10 @@
 # AperNet
 
-AperNet (v0.08)
+- AperNet (v0.08)
 
-##介绍
+## 介绍
 
-AperNet 是一个基于主-从 Reactor 模型的多线程异步 Web 服务器。支持处理 HTTP/1.1 静态 GET 请求。
+* AperNet 是一个基于主-从 Reactor 模型的多线程异步 Web 服务器。支持处理 HTTP/1.1 静态 GET 请求。
 
 ## 特点
 
@@ -17,7 +17,7 @@ AperNet (v0.08)
 * 支持长连接: 使用std::map储存fd与channel(事件分发器)的对应关系
 * 支持优雅关闭 
 
-##使用方法
+## 使用方法
 
 安装前，你需要确保你的机器已经正确配置了cmake 3.0以上的版本，你可在软件源中下载并安装cmake。
 
@@ -29,7 +29,7 @@ AperNet (v0.08)
 
 ```$ab  ab -n 500000 -r -c 512 http://127.0.0.1:8000/hello.html```
 
-####AperNet
+#### AperNet
 
 ```shell
 Concurrency Level:      512
@@ -63,6 +63,7 @@ Speed=2437418 pages/min, 6662243 bytes/sec.
 
 ```Total time```代表函数的调用总时间(包括函数内的调用)
 ```Self time```代表函数调用的时间(不包括其它函数)
+
 按照selftime排序：
 
 ```shell
@@ -80,7 +81,6 @@ Speed=2437418 pages/min, 6662243 bytes/sec.
  Total time   Self time       Calls  Function
   ==========  ==========  ==========  =================================================
  475.619 ms    2.053 ms        7499  std::function::operator ()
-  473.174 ms    1.964 ms        7499  std::_Function_handler::_M_invoke
   468.986 ms    1.909 ms        7499  std::_Bind::operator ()
   464.056 ms    2.579 ms        7499  std::_Bind::__call
   213.488 ms  618.605 us        2998  Channel::handleEvent
