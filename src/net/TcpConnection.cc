@@ -7,7 +7,6 @@
 #include "SocketsOps.h"
 
 #include <functional>
-#include <boost/implicit_cast.hpp>
 #include <errno.h>
 #include <stdio.h>
 #include <iostream>
@@ -129,7 +128,7 @@ void TcpConnection::sendInLoop(const void* data,size_t len)
         nwrote = ::write(channel_->fd(),data,len);
         if(nwrote >= 0)
         {
-            if(boost::implicit_cast<size_t>(nwrote) < len)
+            if(static_cast<size_t>(nwrote) < len)
                 std::cout << "I am going to write more data "<<std::endl;
             //这次写完还有剩余数据
         }
@@ -142,7 +141,7 @@ void TcpConnection::sendInLoop(const void* data,size_t len)
         
     }
     assert(nwrote >= 0);
-    if (boost::implicit_cast<size_t>(nwrote) <len)
+    if (static_cast<size_t>(nwrote) <len)
     {
         outputBuffer_.append(data+nwrote, len-nwrote);
         //将发完剩余的内容加入buffer中

@@ -7,17 +7,16 @@
 #include <strings.h> //bzero
 #include <sys/socket.h>
 #include <unistd.h>
-#include <boost/implicit_cast.hpp>    //源代码里为什么没有???
 typedef struct sockaddr SA;
 
 //?????
 const SA* sockaddr_cast(const struct sockaddr_in* addr)
 {
-     return static_cast<const SA*>(boost::implicit_cast<const void*>(addr));
+     return static_cast<const SA*>(static_cast<const void*>(addr));
 }
 SA* sockaddr_cast(struct sockaddr_in* addr)
 {
-  return static_cast<SA*>(boost::implicit_cast<void*>(addr));
+  return static_cast<SA*>(static_cast<void*>(addr));
 }
 
 void setNonBlockAndCloseOnExec(int sockfd)

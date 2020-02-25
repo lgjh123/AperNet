@@ -13,6 +13,7 @@ int main(int argc, char* argv[])
 {
   EventLoop loop;
   HttpServer server(&loop, InetAddress(8000));
+  server.setThreadNum(7);
   server.start();
   loop.loop();
 }

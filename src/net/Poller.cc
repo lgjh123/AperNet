@@ -2,19 +2,12 @@
 #include "Poller.h"
 #include "Channel.h"
 
+#include <iostream>
 #include <assert.h>
 #include <poll.h>
-#include <boost/implicit_cast.hpp>
 #include <sys/epoll.h>
-#include <boost/static_assert.hpp>
 #include <errno.h>
 
-BOOST_STATIC_ASSERT(EPOLLIN == POLLIN);
-BOOST_STATIC_ASSERT(EPOLLPRI == POLLPRI);
-BOOST_STATIC_ASSERT(EPOLLOUT == POLLOUT);
-BOOST_STATIC_ASSERT(EPOLLRDHUP == POLLRDHUP);
-BOOST_STATIC_ASSERT(EPOLLERR == POLLERR);
-BOOST_STATIC_ASSERT(EPOLLHUP == POLLHUP);
 
 namespace{    //namespace用法
     const int kNew = -1;
@@ -52,7 +45,8 @@ void EPoller::poll(int timeoutMs, ChannelList* activeChannels)
     if(numEvents > 0){
         //std::cout << "events happended" << std::endl;
         fillActiveChannel(numEvents,activeChannels);
-        if(boost::implicit_cast<size_t>(numEvents) == events_.size())
+
+        if(static_cast<size_t>(numEvents) == events_.size())
         {
             events_.resize(events_.size()*2);
         }
@@ -68,7 +62,7 @@ void EPoller::fillActiveChannel(int numEvents,
                                ChannelList* activeChannels)
 {
     //poll每次需要遍历O(n)    epoll每次查找只需O(logn)
-    assert(boost::implicit_cast<size_t>(numEvents)<=events_.size());
+    assert(static_cast<size_t>(numEvents)<=events_.size());
 
     for(int i = 0;i < numEvents; ++i)
     {

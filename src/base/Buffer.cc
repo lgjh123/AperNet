@@ -4,8 +4,6 @@
 #include <errno.h>
 #include <memory.h>
 #include <sys/uio.h>
-#include <boost/implicit_cast.hpp>
-
 const char Buffer::kCRLF[] = "\r\n";
 
 ssize_t Buffer::readFd(int fd,int* savedErrno)
@@ -21,7 +19,7 @@ ssize_t Buffer::readFd(int fd,int* savedErrno)
     if( n < 0 )
     {
         *savedErrno = errno;
-    }else if(boost::implicit_cast<size_t>(n) <= writable) {
+    }else if(static_cast<size_t>(n) <= writable) {
         writerIndex_ += n;
     }else{
         writerIndex_ = buffer_.size();
