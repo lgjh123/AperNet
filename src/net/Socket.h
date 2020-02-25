@@ -1,10 +1,10 @@
 #pragma once
 
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 
 class InetAddress;
 
-class Socket : boost::noncopyable
+class Socket : uncopyable
 {
 public:
     explicit Socket(int sockfd)

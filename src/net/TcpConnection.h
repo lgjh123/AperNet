@@ -5,7 +5,7 @@
 
 #include <boost/any.hpp>
 //#include <boost/enable_shared_from_this.hpp>
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 //#include <boost/scoped_ptr.hpp>
 #include <memory>
 
@@ -13,7 +13,7 @@ class Channel;
 class EventLoop;
 class Socket;
 
-class TcpConnection : boost::noncopyable,
+class TcpConnection : uncopyable,
                       public std::enable_shared_from_this<TcpConnection>
 {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 #include <functional>
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 
 #include "Channel.h"
 #include "Socket.h"
@@ -8,7 +8,7 @@
 class EventLoop;
 class InetAddress;
 
-class Acceptor : boost::noncopyable
+class Acceptor : uncopyable
 {
 public:
     typedef std::function<void (int sockfd,

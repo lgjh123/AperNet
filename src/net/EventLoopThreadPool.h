@@ -7,14 +7,14 @@
 
 #include <vector>
 #include <functional>
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 #include <boost/ptr_container/ptr_vector.hpp>
 
 
 class EventLoop;
 class EventLoopThread;
 
-class EventLoopThreadPool : boost::noncopyable
+class EventLoopThreadPool : uncopyable
 {
  public:
   EventLoopThreadPool(EventLoop* baseLoop);

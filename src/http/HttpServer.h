@@ -1,10 +1,10 @@
 #include "../net/TcpServer.h"
-#include "boost/noncopyable.hpp"
+#include "../util/uncopyable.h"
 
 class HttpRequest;
 class HttpResponse;
 
-class HttpServer : boost::noncopyable
+class HttpServer : uncopyable
 {
  public:
  // typedef std::function<void (const HttpRequest&,

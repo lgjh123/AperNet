@@ -1,12 +1,12 @@
 
 #include "../thread/Condition.h"
 #include <thread>
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 #include <functional>
 #include "Callbacks.h"
 //class EventLoop;
 
-class EventLoopThread : boost::noncopyable
+class EventLoopThread : uncopyable
 {
  public:
   EventLoopThread();

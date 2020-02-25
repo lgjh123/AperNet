@@ -9,7 +9,7 @@ struct epoll_event;
 class Eventloop;
 class Channel;
 
-class EPoller : boost::noncopyable
+class EPoller : uncopyable
 {
 public:
     typedef std::vector<Channel*> ChannelList;

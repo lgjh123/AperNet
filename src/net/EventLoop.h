@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 #include <vector>
 #include <sys/types.h>
 #include <sys/syscall.h>
@@ -13,7 +13,7 @@
 class Channel;
 class EPoller;
 
-class EventLoop : boost::noncopyable
+class EventLoop : uncopyable
 {
 public:
     typedef std::function<void()> Functor;

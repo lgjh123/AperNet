@@ -8,12 +8,12 @@
 #include "TcpConnection.h"
 
 #include <map>
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 
 class Acceptor;
 class EventLoop;
 class EventLoopThreadPool;
-class TcpServer : boost::noncopyable
+class TcpServer : uncopyable
 {
 public:
     TcpServer(EventLoop* loop,const InetAddress& listenAddr);

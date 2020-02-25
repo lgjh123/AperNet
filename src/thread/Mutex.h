@@ -1,11 +1,11 @@
 #ifndef _TEST_H_
 #define _TEST_H_
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 #include <assert.h>
 #include <pthread.h>
 #include "CurrentThread.h"
 
-class MutexLock : boost::noncopyable
+class MutexLock : uncopyable
 {
  public:
   MutexLock()
@@ -55,7 +55,7 @@ class MutexLock : boost::noncopyable
   pid_t holder_;
 };
 
-class MutexLockGuard : boost::noncopyable
+class MutexLockGuard : uncopyable
 {
  public:
   explicit MutexLockGuard(MutexLock& mutex) : mutex_(mutex)

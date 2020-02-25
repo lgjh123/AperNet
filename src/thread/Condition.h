@@ -2,12 +2,12 @@
 #define _TEST_
 #include "Mutex.h"
 
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 #include <pthread.h>
 #include <errno.h>
 
 
-class Condition : boost::noncopyable
+class Condition : uncopyable
 {
  public:
   explicit Condition(MutexLock& mutex) : mutex_(mutex)

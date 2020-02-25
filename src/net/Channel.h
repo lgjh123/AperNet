@@ -1,5 +1,5 @@
 #pragma once
-#include <boost/noncopyable.hpp>
+#include "../util/uncopyable.h"
 #include <functional>
 
 //channel 事件分发器
@@ -10,7 +10,7 @@
 //channel会把不同的io事件发给不同的回调 
 class EventLoop;
 
-class Channel : boost::noncopyable 
+class Channel : uncopyable 
 {
 public:
     typedef std::function<void()> EventCallback;

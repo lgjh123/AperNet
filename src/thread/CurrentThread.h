@@ -1,7 +1,6 @@
 
-#include <boost/function.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/shared_ptr.hpp>
+#include "../util/uncopyable.h"
+#include <memory>
 #include <pthread.h>
 
 
