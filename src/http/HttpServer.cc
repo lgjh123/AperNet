@@ -96,14 +96,6 @@ void HttpServer::setResponse(const HttpRequest& req,HttpResponse* resp)
         "<body><h1>Hello</h1>Now is "
         "</body></html>");
   }
- /* else if (req.path() == "/favicon.ico")
-  {
-    resp->setStatusCode(HttpResponse::k200Ok);
-    resp->setStatusMessage("OK");
-    resp->setContentType("image/png");
-    resp->setBody(string(favicon, sizeof favicon));
-  }
-  */
   else if (req.path() == "/hello")
   {
     resp->setStatusCode(HttpResponse::k200Ok);

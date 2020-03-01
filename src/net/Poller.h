@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 
+#include <strings.h>
 //#include "datetime/Timestamp.h"
 #include "EventLoop.h"
 

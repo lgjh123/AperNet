@@ -4,9 +4,7 @@
 #include "../base/Buffer.h"
 
 #include <boost/any.hpp>
-//#include <boost/enable_shared_from_this.hpp>
 #include "../util/uncopyable.h"
-//#include <boost/scoped_ptr.hpp>
 #include <memory>
 
 class Channel;

@@ -2,6 +2,7 @@
 #include <functional>
 #include "../util/uncopyable.h"
 
+#include <unistd.h>
 #include "Channel.h"
 #include "Socket.h"
 
