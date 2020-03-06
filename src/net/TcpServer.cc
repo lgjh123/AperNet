@@ -63,9 +63,9 @@ void TcpServer::newConnection(int sockfd,const InetAddress& peerAddr)
     //FIXME ??
     EventLoop* ioLoop = threadPool_->getNextLoop();
     TcpConnectionPtr conn(
-        new TcpConnection(ioLoop,connName,sockfd,localAddr,peerAddr));
+        std::make_shared<TcpConnection>(ioLoop,connName,sockfd,localAddr,peerAddr));
     connections_[connName] = conn;
-    conn->setConnectionCallback(connectionCallback_);
+    conn->setConnectionCallback(connectionCallback_);             //这两个callback是从httpserver传来
     conn->setMessageCallback(messageCallback_);
     conn->setCloseCallback(std::bind(&TcpServer::removeConnection,this,std::placeholders::_1));
     // conn->connectEstablished();
