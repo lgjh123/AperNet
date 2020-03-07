@@ -41,7 +41,7 @@ int Socket::accept(InetAddress* peeraddr)
 void Socket::setReuseAddr(bool on)
 {
     int optval = on ? 1 : 0;
-    ::setsockopt(sockfd_,SOL_SOCKET,SO_REUSEADDR,
+    ::setsockopt(sockfd_,SOL_SOCKET,SO_REUSEADDR|SO_REUSEPORT,
                  &optval,sizeof optval);
     //FIXME CHECK
 }

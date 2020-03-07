@@ -1,6 +1,6 @@
 
 #include "EventLoopThread.h"
-
+#include "../http/HttpServer.h"
 #include "EventLoop.h"
 
 #include <functional>
@@ -38,7 +38,10 @@ EventLoop* EventLoopThread::startLoop()
 
 void EventLoopThread::threadFunc()
 {
+  //EventLoop loop
   EventLoop loop;
+  HttpServer server(&loop, InetAddress(8000));
+  server.start();
 
   {
     MutexLockGuard lock(mutex_);

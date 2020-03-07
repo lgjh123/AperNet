@@ -2,7 +2,6 @@
 
 #include "../thread/Condition.h"
 #include "../thread/Mutex.h"
-//#include "../thread/Thread.h"
 
 
 #include <vector>

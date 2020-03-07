@@ -135,7 +135,8 @@ void TcpConnection::sendInLoop(const void* data,size_t len)
         else
         {
             nwrote = 0;
-            if(errno!= EWOULDBLOCK)
+            if(errno!= EWOULDBLOCK)                 //如果又一次很大的write如果调用阻塞I/O，会将线程阻塞。这里用非阻塞I/O
+                                                    //一次处理不完的话触发errno将剩下的内容加入写buffer,下一次触发继续发送。
                 std::cout << "TcpConnection::sendInLoop" << std::endl;
         }
         

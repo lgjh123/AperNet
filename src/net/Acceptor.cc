@@ -16,7 +16,7 @@ Acceptor::Acceptor(EventLoop* loop,const InetAddress& listenAddr)
     acceptChannel_(loop,acceptSocket_.fd()),
     //用loop 和上一步构造的socket的的fd构造了channel
     listenning_(false),
-    ideal_(::open("/dev/null",O_WRONLY))
+    ideal_(::open("/dev/null",O_WRONLY))                //?
 {
     //在Socket中调用相关函数
     acceptSocket_.setReuseAddr(true);
